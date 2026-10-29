@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0a1220">
+<meta name="description" content="صفحة مجانية لإعداد ملف تثبيت تطبيق iOS موقّع رسمياً">
+<title>iOS Install Hub | مركز التثبيت</title>
+<style>
+:root{color-scheme:dark;--bg:#080e19;--panel:#111e30;--edge:#304256;--muted:#b7c5d8;--accent:#53b8e7}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% -15%,#174266 0,transparent 45%),var(--bg);color:#f0f6ff;font-family:system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;line-height:1.75}
+main{max-width:870px;margin:auto;padding:28px 20px 80px}header{display:flex;align-items:center;gap:12px;font-weight:750;margin-bottom:56px}.logo{display:grid;place-items:center;width:46px;height:46px;background:linear-gradient(130deg,#35b5eb,#1955a1);border-radius:15px;font-size:23px}.badge{border:1px solid var(--edge);color:var(--muted);font-size:12px;padding:3px 11px;border-radius:999px;margin-right:auto}
+.hero{padding:38px 30px;border:1px solid var(--edge);background:linear-gradient(150deg,#17304d,#0d1729 65%);border-radius:28px;box-shadow:0 15px 40px #0002}
+.over{color:#7bd0ff;font-size:13px;font-weight:700}h1{font-size:clamp(32px,6vw,53px);margin:10px 0 15px;line-height:1.25}h2{font-size:23px;margin:0 0 12px}p{color:var(--muted);margin:0 0 18px}.hint{color:#b4cce0;font-size:13px}.status{padding:13px 16px;margin:18px 0;background:#263145;border:1px solid #455269;border-radius:12px;color:#fbdcb4}
+form{display:grid;gap:14px}label{font-size:14px;font-weight:650}input{width:100%;border:1px solid var(--edge);border-radius:12px;background:#0b1525;color:white;font:inherit;padding:13px 15px;direction:ltr;text-align:left;margin-top:7px}
+button,.btn{display:inline-block;font:inherit;font-weight:700;text-align:center;cursor:pointer;border-radius:13px;border:0;padding:13px 22px;background:#47bae9;color:#052034;text-decoration:none}
+button:disabled{background:#56687a;color:#d2dae3;cursor:not-allowed}.buttonline{display:flex;gap:12px;flex-wrap:wrap}.secondary{border:1px solid #4a647c;background:#1d3046;color:#e1f5ff}
+section.panel{background:var(--panel);border:1px solid var(--edge);border-radius:21px;padding:25px;margin-top:26px}.stepgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.step{border:1px solid var(--edge);border-radius:14px;padding:17px;background:#0e1827}.step b{color:#7bd0ff}
+details{margin-top:14px}summary{cursor:pointer;font-weight:700}code{color:#88d6fb;overflow-wrap:anywhere}footer{margin-top:35px;font-size:13px;color:#96a9bc}
+@media(max-width:680px){header{margin-bottom:25px}.hero{padding:26px 19px}.stepgrid{grid-template-columns:1fr}.buttonline>*{width:100%}}
+</style>
+</head>
+<body><main>
+<header><div class="logo">✦</div><span>iOS Install Hub</span><span class="badge">نسخة مفتوحة المصدر</span></header>
+<section class="hero">
+<div class="over">تنزيل تطبيق iOS من رابط موثوق</div>
+<h1>مركز تثبيت الآيفون</h1>
+<p>صفحة لتركيب تطبيق تملكه أو مأذون بتوزيعه، بشرط أن يكون ملف IPA موقّعاً بشهادة وتصريح Apple صالحين لجهازك. هذه الصفحة لا توقّع التطبيقات ولا تصدر شهادات.</p>
+<label for="manifest">رابط ملف التثبيت manifest.plist (HTTPS)</label>
+<input id="manifest" type="url" inputmode="url" placeholder="https://example.com/manifest.plist" autocomplete="off">
+<div id="status" class="status" role="status" aria-live="polite">ماكو ملف تثبيت محدد بعد. الزر يتفعّل بس بعد وضع رابط HTTPS.</div>
+<div class="buttonline"><button id="install" type="button" disabled>تثبيت التطبيق</button><button id="copy" class="secondary" type="button" disabled>نسخ رابط التثبيت</button></div>
+<p class="hint" style="margin-top:17px">افتح الصفحة من Safari على iPhone. الرابط الصحيح وحده مو ضمان للتثبيت: Apple تتحقق أيضاً من توقيع التطبيق وملف provisioning.</p>
+</section>
+<section class="panel">
+<h2>جهّز ملف manifest مجاناً</h2>
+<p>إذا عندك IPA موقّع بشكل صحيح ومرفوع على HTTPS، تگدر تولّد ملف التثبيت محلياً داخل متصفحك، بدون إرسال بياناتك لأي سيرفر.</p>
+<form id="generator">
+<label>رابط IPA<input id="ipa" type="url" placeholder="https://example.com/app.ipa" required></label>
+<label>معرّف التطبيق (Bundle ID)<input id="bundle" type="text" placeholder="com.example.app" required pattern="[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+"></label>
+<label>رقم الإصدار<input id="version" type="text" placeholder="1.0" required></label>
+<label>اسم التطبيق<input id="title" type="text" placeholder="My App" required></label>
+<div><button type="submit">تنزيل manifest.plist</button></div>
+<p id="genstatus" role="status" class="hint"></p>
+</form>
+</section>
+<section class="panel">
+<h2>شلون يشتغل؟</h2>
+<div class="stepgrid">
+<div class="step"><b>01 — التوقيع</b><p>وقّع تطبيقك عن طريق Xcode / Apple Developer بالتوزيع المسموح لجهازك.</p></div>
+<div class="step"><b>02 — الرفع</b><p>ارفع IPA الموقّع وملف manifest.plist على HTTPS.</p></div>
+<div class="step"><b>03 — التثبيت</b><p>الصق رابط manifest بالأعلى، وافتح الرابط على Safari.</p></div>
+</div>
+<details><summary>هل DNS ينطيني شهادة مجانية؟</summary><p>لا. DNS يوصل الدومين بالموقع فقط؛ ما يطلع شهادة توقيع iOS وما يعالج الشهادة المنتهية. HTTPS أيضاً غير شهادة توقيع Apple.</p></details>
+</section>
+<footer>مشروع تجريبي مجاني. ماكو رفع لشهادات أو مفاتيح خاصة إلى هذا الموقع. لا تستخدم شهادات مجهولة المصدر.</footer>
+</main>
+<script>
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+const manifest=$("manifest"),install=$("install"),copy=$("copy"),status=$("status");
+function https(s){try{const u=new URL(s);return u.protocol==="https:"&&!!u.hostname&&!u.username&&!u.password}catch{return false}}
+function target(){return "itms-services://?action=download-manifest&url="+encodeURIComponent(manifest.value.trim())}
+manifest.addEventListener("input",()=>{const ok=https(manifest.value.trim());install.disabled=copy.disabled=!ok;status.textContent=ok?"الرابط مضبوط شكلياً. نجاح التثبيت يحتاج شهادة Apple وIPA صالحين.":"أدخل رابط HTTPS صحيح لملف manifest.plist."});
+install.addEventListener("click",()=>{if(!install.disabled)location.href=target()});
+copy.addEventListener("click",async()=>{if(copy.disabled)return;try{await navigator.clipboard.writeText(target());status.textContent="اننسخ رابط التثبيت."}catch{status.textContent="ما كدرت أنسخ الرابط. افتح الصفحة من HTTPS وتأكد من صلاحيات المتصفح."}});
+const escapeXML=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&apos;");
+$("generator").addEventListener("submit",e=>{
+e.preventDefault();
+const url=$("ipa").value.trim(),id=$("bundle").value.trim(),v=$("version").value.trim(),name=$("title").value.trim();
+if(!https(url)){$("genstatus").textContent="رابط IPA لازم يبدأ بـ HTTPS ويكون متاح من الآيفون.";return}
+const xml='<?xml version="1.0" encoding="UTF-8"?>\n<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">\n<plist version="1.0"><dict><key>items</key><array><dict><key>assets</key><array><dict><key>kind</key><string>software-package</string><key>url</key><string>'+escapeXML(url)+'</string></dict></array><key>metadata</key><dict><key>bundle-identifier</key><string>'+escapeXML(id)+'</string><key>bundle-version</key><string>'+escapeXML(v)+'</string><key>kind</key><string>software</string><key>title</key><string>'+escapeXML(name)+'</string></dict></dict></array></dict></plist>';
+const blob=new Blob([xml],{type:"application/xml"}),a=document.createElement("a"),u=URL.createObjectURL(blob);a.href=u;a.download="manifest.plist";a.click();setTimeout(()=>URL.revokeObjectURL(u),5000);$("genstatus").textContent="تم إنشاء الملف محلياً. ارفعه على HTTPS قبل استخدام رابط التثبيت.";
+});
+})();
+</script></body></html>
